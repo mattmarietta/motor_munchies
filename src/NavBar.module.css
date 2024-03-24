@@ -1,0 +1,35 @@
+.navbar {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  justify-content: right;
+  align-items: center;
+
+  margin: 0;
+  background-color: rgb(255, 208, 208);
+  height: 5vh;
+  width: 100vw;
+  
+  h2 {
+    flex-grow: 1;  
+    margin-left: 10px;
+    padding: 0px 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 1px;
+  }
+  
+  * {
+    margin-right: 20px;
+  }
+  
+  a {
+    padding: 5px 10px;
+    border: 1px rgba(0, 0, 0, 0) solid;
+  }
+  a:hover {
+    border: 1px rgba(0, 0, 0, 0.384) solid;
+    border-radius: 5px;
+    transition: 0.25s ease;
+  }
+}
