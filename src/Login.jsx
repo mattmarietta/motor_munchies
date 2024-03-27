@@ -20,6 +20,7 @@ export default function Login() {
         type="email" 
         value={email} 
         placeholder="Enter your email address"
+        autoComplete="off"
         onChange={(e) => {
           setEmail(e.target.value)
       }} />
@@ -32,6 +33,7 @@ export default function Login() {
       type="password" 
       value={password} 
       placeholder="Enter your password"
+      autoComplete="off"
       onChange={(e) => {
         setPassword(e.target.value)
       }} />

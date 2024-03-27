@@ -1,11 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef, createContext} from 'react'
 
 export default function SearchBar(props) {
-  useEffect(() => {
-    // Use this to add event listener ? that will allow for enter key, which then stores that input value
-  }, [])
-  const [location, setLocation] = useState();
-
   const styles = {
     height: '20px',
     width: `${props.width}`,
@@ -14,14 +9,31 @@ export default function SearchBar(props) {
     boxShadow: '0px 0px 2px',
     padding: '5px 5px 5px 10px'
   }
+
+  useEffect(() => {
+    document.querySelectorAll("#searchbar")
+    //Add unique class name to each component? fixes problem of having to do foreach
+    .forEach(component => component.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        window.location.assign("./map.html")
+        console.log(locationRef.current)
+      }
+    }))
+  }, [])
+
+  let locationRef = useRef('');
+  const userContext = createContext();
   
   return (
-    <>
-      <input 
+    <userContext.Provider value={locationRef.current}>
+      <input id="searchbar"
       style={styles} 
       type="textbox" 
-      value={location}
-      placeholder="Enter a city or zipcode" />
-    </>
+      placeholder="Enter a city or zipcode"
+      autoComplete="off"
+      onChange={(e) => {
+        locationRef.current = e.target.value
+      }} />
+    </userContext.Provider>
   )
 }
