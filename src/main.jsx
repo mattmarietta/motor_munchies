@@ -9,7 +9,7 @@ import './index.css'
 const source = [
   {location: 'root-navbar', component: <NavBar />},
   {location: 'root-searchbar', component: <SearchBar width="400px"/>},
-  {location: 'root-login', component: <Login />},
+  {location: 'root-login', component: <Login />}
 ]
 
 source.forEach(item => {

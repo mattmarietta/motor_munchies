@@ -14,7 +14,7 @@ export default function SearchBar(props) {
     document.querySelectorAll("#searchbar")
     //Add unique class name to each component? fixes problem of having to do foreach
     .forEach(component => component.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
+      if (e.key === "Enter" && locationRef.current != '') {
         window.location.assign("./map.html")
         console.log(locationRef.current)
       }
