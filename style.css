@@ -60,9 +60,7 @@ p.maintext {
   font-family: "Verdana";
   font-size: 40px;
   color: #ffffff;
-  margin-top: 10%;
-  margin-left: 20%;
-  text-align: left;
+  text-align: center;
 }
 
 .greentext {
@@ -80,6 +78,12 @@ p.maintext {
   color: #ffffff;
   margin-top: 10%;
   text-align: center;
+}
+
+.bottom {
+  font-family: "Verdana";
+  font-size: 20px;
+  color: #ffffff;
 }
 
 .button {
