@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import NavBar from './NavBar.jsx'
-import Footer from './Footer.jsx'
-import Login from './Login/Login.jsx'
+import NavBar from './components/NavBar.jsx'
+import Footer from './components/Footer.jsx'
+import Login from './components/Login/Login.jsx'
 
 const source = [
   {location: 'root-navbar', component: <NavBar />},

@@ -32,10 +32,11 @@ export default function NavBar() {
               <button type="submit" onClick={() => {e.preventDefault(); window.location.assign("./map.html")}}>Search</button>
             </form>
           </div>
-
+          {/* List of navigation buttons */}
           <li><a className="active" href="./index.html">Home</a></li>
           <li><a href="./about.html">About</a></li>
-          <li><a href="">Support</a></li>
+          <li><a href="./support.html">Support</a></li>
+          <li><a href="reviewtest.html">Reviewtest</a></li>
           <li><button id="loginBtn" className="right">Log in</button></li>
           <li><button id="signupBtn" className="right">Sign up</button></li>
           

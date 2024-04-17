@@ -37,9 +37,9 @@ export default function Login() {
           <h2>Login to Motor Munchies</h2>
           <form>
             <label htmlFor="loginUsername">Username:</label>
-            <input type="text" id="loginUsername" name="username" required />
+            <input type="text" id="loginUsername" name="username" autoComplete="off" required />
             <label htmlFor="loginPassword">Password:</label>
-            <input type="password" id="loginPassword" name="password" required />
+            <input type="password" id="loginPassword" name="password" autoComplete="off" required />
             <button type="button" onClick={() => fakeLogin()}>Login</button>
           </form>
         </div>
@@ -51,11 +51,11 @@ export default function Login() {
           <h2>Sign up for Motor Munchies</h2>
           <form>
             <label htmlFor="signupUsername">Username:</label>
-            <input type="text" id="signupUsername" name="username" required />
+            <input type="text" id="signupUsername" name="username" autoComplete="off" required />
             <label htmlFor="signupEmail">Email:</label>
-            <input type="email" id="signupEmail" name="email" required />
+            <input type="email" id="signupEmail" name="email" autoComplete="off" required />
             <label htmlFor="signupPassword">Password:</label>
-            <input type="password" id="signupPassword" name="password" required />
+            <input type="password" id="signupPassword" name="password" autoComplete="off" required />
             <button type="button" onClick={() => fakeSignup()}>Sign up</button>
           </form>
         </div>

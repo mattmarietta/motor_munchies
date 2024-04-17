@@ -20,7 +20,37 @@
   border: 1px solid #888;
   width: 80%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
 }
+
+
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
+}
+
 
 .close {
   color: white;
@@ -44,7 +74,6 @@
 
 
 .modal-content h2 {
-  
   padding: 12px 16px;
   background-color: #6542b8;
   color: white;
@@ -59,7 +88,6 @@
 .modal-content label,
 .modal-content input,
 .modal-content button {
-  
   display: block;
   width: 90%;
   margin: auto;
@@ -67,8 +95,6 @@
 }
 
 .modal-content button {
-  
-  font-size: 25px;
   color: #ffffff;
   cursor: pointer;
   background-color: #4CAF50;
