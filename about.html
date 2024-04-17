@@ -6,6 +6,80 @@
   <meta name="viewport" content="width=device-width">
   <title>MotorMunchies</title>
   <link href="style.css" rel="stylesheet" type="text/css" />
+  <h1>Motor Munchies</h1>
+</head>
+
+<body>
+  <div class="nav">
+    <ul>
+      <div class="left">
+        <div class="search-container">
+          <form id="fakeSearchForm">
+            <input type="text" placeholder="Search..." name="search">
+            <button type="submit">Search</button>
+          </form>
+        </div>
+        <li><a href="index.html">Home</a></li>
+        <li><a class="active" href="about.html">About</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><button id="loginBtn" class="right">Log in</button></li>
+        <li><button id="signupBtn" class="right">Sign up</button></li>
+      </div>
+    </ul>
+  </div>
+
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('loginModal')">&times;</span>
+      <h2>Login to Motor Munchies</h2>
+      <form>
+        <label for="loginUsername">Username:</label>
+        <input type="text" id="loginUsername" name="username" required>
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="password" required>
+        <button type="button" onclick="fakeLogin()">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('signupModal')">&times;</span>
+      <h2>Sign up for Motor Munchies</h2>
+      <form>
+        <label for="signupUsername">Username:</label>
+        <input type="text" id="signupUsername" name="username" required>
+        <label for="signupEmail">Email:</label>
+        <input type="email" id="signupEmail" name="email" required>
+        <label for="signupPassword">Password:</label>
+        <input type="password" id="signupPassword" name="password" required>
+        <button type="button" onclick="fakeSignup()">Sign up</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script> <!--Working on the about stuff-Olivia-->
+  <div>
+    <p class="whitetext">Our goal is for Motor Munchies to be a service that is convenient and innovative. Motor Munchies does this by allowing food truck vendors to advertise and post their food trucks while users can search for food trucks around them.</p>
+    <div align="center">
+      <img src="Images/AboutFoodTruck.png" width="600" height="500">
+    </div>
+    <p align="center">
+      <span class="greentext">Motor Munchies </span>
+      <span class="whitetext">is a project developed by aspiring developers!
+      </span>
+    </p>
+  </div>
+</body>
+
+<footer>
+  <p class="bottom">Follow us on: </p>
+  <a href=https://www.facebook.com /><img border="0" src="Images/Facebook.png" width="50" height="50"></a>
+  <a href=https://www.instagram.com /><img border="0" src="Images/Instagram.png" width="50" height="50"></a>
+  <a href=https://tiktok.com/?lang=en><img border="0" src="Images/Tiktok.png" width="50" height="50"></a>
+  <a href=https://twitter.com/?lang=en><img border="0" src="Images/Twitter.png" width="50" height="50"></a>
+  <footer>
+
 </head>
 
 <body>
