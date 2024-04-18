@@ -134,14 +134,14 @@ button:hover {
 .search-container {
   float: right;
   padding: 6px;
-  
+ 
 }
 
 .search-container form {
   display: flex;
   border: 1px solid #ddd;
   padding: 4px;
-  
+ 
 }
 
 .search-container input[type="text"] {
@@ -150,7 +150,7 @@ button:hover {
   border: none;
   outline: none;
   width: 200px;
-  
+ 
 }
 
 .search-container button[type="submit"] {
@@ -158,10 +158,10 @@ button:hover {
   background: #ddd;
   border: none;
   cursor: pointer;
-  
+ 
 }
 
 .search-container button[type="submit"]:hover {
   background: #333333;
-  
+ 
 }
