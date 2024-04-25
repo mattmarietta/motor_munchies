@@ -40,7 +40,17 @@
                 userLocations = [];
             }
             
-            userLocations.push(currentLocation);
+            userLocations.push(
+                {
+                    "title":currentLocation.name,
+                    "address1":currentLocation.formatted_address,
+                    "address2":"",
+                    "coords":{
+                        "lat":currentLocation.geometry.location.lat(),
+                        "lng":currentLocation.geometry.location.lng()
+                    },
+                    "placeId":currentLocation.name
+                });
             let userLocationsJson = JSON.stringify(userLocations);
             localStorage.setItem("UserLocations", userLocationsJson);
         }

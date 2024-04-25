@@ -45,7 +45,7 @@
       let userLocations = JSON.parse(localStorage.getItem("UserLocations"));
       if (userLocations){
         userLocations.forEach(location => {
-          configuration.locations.push({"title": location.name,"address1": location.formatted_address,"address2":"","coords":{"lat": location.geometry.location.lat,"lng": location.geometry.location.lng},"placeId":"ChIJfTmDUPW93IAR1LyixoheDHA"});
+          configuration.locations.push(location);
         });
       }
       
