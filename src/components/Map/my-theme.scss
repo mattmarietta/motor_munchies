@@ -1,0 +1,42 @@
+.rw-combobox {
+  margin: 5px 0 20px 0;
+  font-size: .8rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.rw-combobox-input {
+  color: #ffffff;
+  background-color: rgb(7, 7, 7);
+  * {
+  }
+}
+
+.rw-combobox-input:hover {
+  background-color: hsla(0, 0%, 0%, 0.95);
+  transition: 0.2s;
+}
+
+.rw-widget-input {
+  // border: none;
+  // box-shadow: 0 0 5px black;
+}
+
+.rw-popup-container {
+  margin-top: 10px;
+  .rw-popup {
+    background-color: rgb(7, 7, 7);
+    border: none;
+    box-shadow: 0 0 5px black;
+  }
+
+  .rw-list {
+    div {
+      color: white;
+      // padding: 5px;
+    }
+
+    div:hover {
+      background-color: hsla(0, 0%, 0%, 0.5);
+    }
+  }
+}
