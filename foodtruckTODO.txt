@@ -1,0 +1,14 @@
+TODO:
+
+-------------(*) f/ google map autocomplete --> toggle / merge into one search box ?
+-------------upd/ pan to selected marker
+not needed---f/ circle radius shown on the map --> corresponds to selected distance
+kind of------f/ food truck page --> contains reviews, extensive information / images
+-------------f/ sidebar pop up --> displays brief information when marker is clicked (includes link to food truck page)
+-------------f/ review card components --> pass in props to make unique reviews (using object list containing reviews) (hard coded)
+
+-------------f/ add reviews --> user can add reviews (appended to object list of reviews)
+f/ vendors --> add/remove food truck locations, edit information page --> dynamically updates list of food trucks
+
+-------------upd/ sign up --> implement user status ( customer / vendor )
+upd/ styling --> uniform css, layout, clean interface and imagery

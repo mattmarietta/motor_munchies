@@ -1,256 +1,289 @@
+:root {
+  --primary-color: #8ed4e2;
+  --secondary-color: rgb(88, 88, 88);
+  --hover-color: #b7877b;
+}
+
 body {
-  background-color: #333333;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #1f1e1e;
   margin: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+  color: #ffffff;
 }
 
 h1 {
-  
-  font-size: 80px;
-  color: #4ce68f;
+  font-size: 2rem;
+  color: var(--primary-color);
   text-align: left;
   margin: 10px;
 }
 
-.nav {
-  justify-content: space-between;
-  background-color: #6542b8;
-  overflow: hidden;
+p {
+  margin: 0;
 }
 
-ul {
-  
-  font-size: 25px;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+li :is(a, button) {
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s
+}
+
+li :is(a, button):hover {
+  background-color: var(--hover-color);
 }
 
 li {
-  display: inline-block;
-  padding: 7px 8px;
+  list-style: none;
 }
 
-li a {
-  display: block;
-  padding: 10px 11px;
-  text-decoration: none;
-  transition: transform 0.2s;
+
+.maintext {
+  font-size: 2.5rem;
   color: #ffffff;
-}
-
-.right {
-  margin-left: auto;
-}
-
-li a:hover {
-  background-color: #b576c6;
-  border-radius: 15px;
-  transform: scale(0.95);
-}
-
-.active {
-  background-color: #cea4ea;
-  border-radius: 15px;
-}
-
-.mainImg {
-  margin-right: 1;
-}
-
-p.maintext {
-  
-  font-size: 40px;
-  color: #ffffff;
-  margin-top: 10%;
-  margin-left: 20%;
-  text-align: left;
 }
 
 .greentext {
-  
-  font-size: 40px;
-  color: #4ce68f;
-  margin-top: 10%;
-  text-align: center;
+  color: var(--primary-color);
+}
+
+.bold {
   font-weight: bold;
 }
 
-.whitetext {
-  
-  font-size: 40px;
-  color: #ffffff;
-  margin-top: 10%;
-  text-align: center;
-}
+.nav {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  background-color: var(--secondary-color);
 
-.button {
+  ul {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
   
-  font-size: 25px;
-  color: #ffffff;
-  background-color: #6542b8;
-  border-radius: 15px;
-  padding: 15px 20px;
-  margin-left: 4%;
-  text-decoration: none;
-  transition: transform 0.2s;
-}
+  li button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 5px;
+  }
+  
+  .active {
+    background-color: var(--hover-color);
+    border-radius: 10px;
+  }
 
-.button:hover {
-  background-color: #b576c6;
-  border-radius: 15px;
-  transform: scale(1.10);
+  h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    flex: 1;
+  }
+  
+  .search-container {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+  }
+  
+  .search-container form {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 4px;
+  }
+  
+  .search-container input[type="text"] {
+    padding: 6px;
+    /* margin-right: 5px; */
+    border: none;
+    outline: none;
+  }
+  
+  .search-container button[type="submit"] {
+    padding: 6px 10px;
+    background: #ffffff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .search-container button[type="submit"]:hover {
+    background: #d1d1d1;
+    transition: 0.2s;
+  }
 }
 
 footer {
-  
+  width: 100vw;
   display: block;
+  position: absolute;
   bottom: 0;
   text-align: center;
-  background-color: #6542b8;
-  color: #00001a;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-
-.modal-content {
-  position: relative;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 0;
-  border: 1px solid #888;
-  width: 80%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  background-color: red;
-  border: none;
-  cursor: pointer;
-  padding: 0 15px;
-  margin-right: 10px;
-  margin-top: 10px;
-}
-
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-
-.modal-content h2 {
-  
-  padding: 12px 16px;
-  background-color: #6542b8;
-  color: white;
-  margin: 0;
-}
-
-
-.modal-content form {
-  padding: 20px 16px;
-}
-
-.modal-content label,
-.modal-content input,
-.modal-content button {
-  
-  display: block;
-  width: 90%;
-  margin: auto;
-  margin-bottom: 10px;
-}
-
-.modal-content button {
-  
-  font-size: 25px;
+  background-color: var(--secondary-color);
   color: #ffffff;
-  cursor: pointer;
-  background-color: #4CAF50;
-  border: none;
-  padding: 15px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  border-radius: 5px;
+
+  p {
+    margin: 5px;
+  }
+
+  a {
+    padding: 0 5px;
+  }
 }
 
-.modal-content button:hover {
-  background-color: #45a049;
-  
-}
+/* --------- PAGE STYLING --------- */
 
-button {
-  
-  font-size: 25px;
-  color: #ffffff;
-  background-color: #6542b8;
-  border: none;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: #b576c6;
-}
-
-.search-container {
-  float: right;
-  padding: 6px;
-  
-}
-
-.search-container form {
+/* index.html */
+.main-page {
+  margin-top: 75px;
   display: flex;
-  border: 1px solid #ddd;
-  padding: 4px;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    height: fit-content;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  div p {
+    margin: 0 0 5px 0;
+  }
+
+  div div {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
   
+  a {
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--secondary-color);
+    transition: 0.2s;
+  }
 }
 
-.search-container input[type="text"] {
-  padding: 6px;
-  margin-right: 6px;
-  border: none;
-  outline: none;
-  width: 200px;
-  
+@media screen and (max-width: 1200px) {
+  .main-page a, li button, input, .search-container button {
+    font-size: .5rem;
+  }
 }
 
-.search-container button[type="submit"] {
-  padding: 6px 10px;
-  background: #ddd;
-  border: none;
-  cursor: pointer;
-  
+/* about.html */
+.about-page {
+  display: flex;
+  margin-top: 75px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .goal {
+    width: 50%;
+  }
 }
 
-.search-container button[type="submit"]:hover {
-  background: #333333;
-  
+/* support.html */
+.support-page {
+  margin-top: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* owner.html */
+.owner-page {
+  margin: 10px;
+  display: flex;
+  box-shadow: 0 0 5px black;
+
+  * {
+
+  }
+
+  #pac-input {
+    
+  }
+}
+
+.side-bar {
+  width: 20%;
+  padding: 20px;
+  background-color: hsla(0, 0%, 0%, 0.5);
+  display: flex;
+  flex-direction: column;
+  transition: 0.2s;
+
+  h4 {
+    margin: 0 0 10px 0;
+  }
+}
+
+.truck-details { 
+  button {
+    background-color: white;
+    width: 100%;
+    height: 1.3rem;
+    border-radius: 4px;
+    border: none;
+    transition: 0.2s;
+    margin-bottom: 10px;
+  }
+
+  button:hover {
+    background-color: hsla(0, 0%, 100%, 0.8);
+    border: none;
+    cursor: pointer;
+  }
+
+  input[type="text"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 3px;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-overflow: ellipsis;
+  }
+
+  textarea {
+    font-family: inherit;
+    font-size: .8rem;
+    box-sizing: border-box;
+    width: 100%;
+    resize: none;
+    padding: 3px;
+    border: none;
+    border-radius: 4px;
+  }
+}
+
+.truck-list {
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+
+  p {
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
 }
