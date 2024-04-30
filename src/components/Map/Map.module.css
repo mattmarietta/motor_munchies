@@ -14,7 +14,18 @@
   background-color: hsla(0, 0%, 0%, 0.5);
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  max-height: 800px;
   transition: 0.2s;
+  
+  &::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+  }
+  &::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  }
 
   .toggle-button button {
     background-color: white;
@@ -138,7 +149,12 @@
   p {
     margin-bottom: 5px;
   }
+
+  .truck-info-details {
+    font-size: .8rem;
+  }
 }
+
 
 .rating {
   display: flex;
@@ -209,6 +225,33 @@
     flex-grow: 1;
     height: 1.3rem;
     transition: 0.2s;
+  }
+}
+
+.info-tab {
+  display: flex;
+  flex-direction: row;
+  gap: 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  
+
+  button {
+    border-radius: 0 !important;
+  }
+}
+
+.menu {
+  padding: 10px;
+  font-size: .9rem;
+
+  div {
+    margin-bottom: 10px;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
   }
 }
 

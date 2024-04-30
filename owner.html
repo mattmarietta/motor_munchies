@@ -15,15 +15,58 @@
         document.getElementById("side-bar").style.width = "20%"
     }
 
-    const handleAddLocation = () => {
-        
+    const handleReset = () => {
+        document.getElementById("truck-name").value = ''
+        document.getElementById("truck-address").value = ''
+        document.getElementById("truck-summary").value = ''
+        document.getElementById("truck-coordinates").innerHTML = "4. Choose a location on the map"
+        marker.position = null
+        cancelAddMenu()
+    }
+
+    const handleAddMenu = () => {
+        document.getElementById("truck-menu").innerHTML = "Cancel"
+        document.getElementById("truck-menu").onclick = () => cancelAddMenu()
+        const menu = document.getElementById("add-menu-item")
+
+        menu.innerHTML = `
+        <div style="display: flex; flex-direction: column; gap: 5px">
+            <div style="font-size: .9rem">
+                <label><input id="item-type" type="radio" value="food" name="item-type" />Food</label>
+                <label><input id="item-type" type="radio" value="drink" name="item-type" />Drink</label>
+            </div>
+            <div style="display: flex; gap: 5px">
+                <input id="item-name" type="text" placeholder="name" autocomplete="off" />
+                <input id="item-cost" type="text" placeholder="cost" autocomplete="off" />
+                <button type="button" style="width: 10%" onclick="addItem()" title="Add item">+</button>
+            </div>
+        </div>
+        `
+    }
+
+    let menuItems = []
+    const addItem = () => {
+        const itemName = document.getElementById("item-name").value
+        const itemCost = document.getElementById("item-cost").value
+        const itemType = document.querySelector('input[name="item-type"]:checked').value;
+        if (itemName && itemCost && itemType) {
+            // Append it to the menuItems list, then append menuItems to localStorage.setItem
+            menuItems.push({ name: itemName, cost: itemCost, type: itemType})
+            currentLocation.details.menu = menuItems
+            cancelAddMenu()
+            console.log(`Added item: { name: ${itemName}, cost: ${itemCost}, type: ${itemType} }`)
+        }
+    }
+
+    const cancelAddMenu = () => {
+        document.getElementById("truck-menu").innerHTML = "Add menu items"
+        document.getElementById("truck-menu").onclick = () => handleAddMenu()
+        document.getElementById("add-menu-item").innerHTML = ''
     }
   </script>
 </head>
 
 <body>
-  <h1>Motor Munchies</h1>
-
   <div id="root-navbar"></div>
   <div id="root-login"></div>
   
@@ -31,58 +74,108 @@
     <div class="side-bar" id="side-bar">
         <h4>Add your food truck locations here.</h4>
         <form class="truck-details">
-            <label for="truck-name">Name</label>
-            <input type="text" id="truck-name" placeholder="What is your food truck called?" onfocus="sidebarFocus()" onfocusout="sidebarFocusOut()" />
-            <label for="truck-name">Address</label>
-            <input type="text" id="truck-address" placeholder="Where is your food truck located?" onfocus="sidebarFocus()" onfocusout="sidebarFocusOut()" />
-            <label for="truck-summary">Summary</label>
+            <label>1. Name</label>
+            <input 
+                type="text" 
+                id="truck-name" 
+                placeholder="What is your food truck called?" 
+                autocomplete="off" 
+                onfocus="sidebarFocus()" onfocusout="sidebarFocusOut()" 
+                onchange="currentLocation.name=this.value"
+            />
+            <label>2. Address</label>
+            <input 
+                type="text" 
+                id="truck-address" 
+                placeholder="Where is your food truck located?" 
+                autocomplete="off" 
+                onfocus="sidebarFocus()" onfocusout="sidebarFocusOut()" 
+                onchange="currentLocation.details.address=this.value"
+            />
+            <label>3. Summary</label>
             <textarea 
                 id="truck-summary"
-                onfocus="sidebarFocus()" 
-                onfocusout="sidebarFocusOut()" 
                 placeholder="Tell us about your food truck (100 characters)"
                 maxlength="100"
+                onfocus="sidebarFocus()" onfocusout="sidebarFocusOut()" 
+                onchange="currentLocation.details.about=this.value"
             ></textarea>
-            <button class="button" onclick="addLocation()">Add Location</button>
+            <div id="truck-coordinates">4. Choose a location on the map</div>
+            <label style="display: flex; gap: 5px">5. <button id="truck-menu" type="button" onClick="handleAddMenu()">Add menu items</button></label>
+            <div id="add-menu-item"></div>
+            <div>
+                <button class="button" type="button" onclick="handleReset()">Reset</button>
+                <button class="button" type="button" onclick="addLocation()">Add Location</button>
+            </div>
         </form>
+        <div class="truck-list" id="truck-list"></div>
     </div>
     <div id="map" style="height:100vh; width:100%"></div>
-    <input
-      style="display: block"
-      id="pac-input"
-      class="controls"
-      type="text"
-      placeholder="Search Box"
-    />
-  </div>
+</div>
+<input
+  id="pac-input"
+  class="controls"
+  type="text"
+  placeholder="Search for a place"
+/>
   
   <script type="module" src="/src/main.jsx"></script>
 
 
     <script>
-        var currentLocation = {};
+        var currentLocation = {
+                    name: {},
+                    geometry: {
+                        location: {
+                            lat: {},
+                            lng: {},
+                        }
+                    },
+                    details: {
+                        address: {},
+                        about: {},
+                        menu: [],
+                    }
+                }
         var marker;
 
         function addLocation(){
+            console.log(marker)
             //debugger;
             var userLocations = JSON.parse(localStorage.getItem("UserLocations"));
             if (!userLocations){
                 userLocations = [];
             }
+
+            if (document.getElementById("truck-name").value === '' || 
+                document.getElementById("truck-address").value === '' || 
+                document.getElementById("truck-summary").value === '' ||
+                !marker ||
+                menuItems.length === 0) {
+                    alert("Please fill in information about your truck.")
+                }
+            else {
+
+                userLocations.push(
+                    {
+                        "title":currentLocation.name,
+                        "coords":{
+                            "lat":currentLocation.geometry.location.lat,
+                            "lng":currentLocation.geometry.location.lng
+                        },
+                        "details": {
+                            "address":currentLocation.details.address,
+                            "address2":"",
+                            "about":currentLocation.details.about,
+                            "menu":currentLocation.details.menu
+                        },
+                        "placeId":currentLocation.name,
+                    });
+                let userLocationsJson = JSON.stringify(userLocations);
+                localStorage.setItem("UserLocations", userLocationsJson);
+                location.reload();
+            }
             
-            userLocations.push(
-                {
-                    "title":currentLocation.name,
-                    "address1":currentLocation.formatted_address,
-                    "address2":"",
-                    "coords":{
-                        "lat":currentLocation.geometry.location.lat,
-                        "lng":currentLocation.geometry.location.lng
-                    },
-                    "placeId":currentLocation.name
-                });
-            let userLocationsJson = JSON.stringify(userLocations);
-            localStorage.setItem("UserLocations", userLocationsJson);
         }
 
         function initAutocomplete() {
@@ -121,16 +214,21 @@
                 
                 console.log(marker.position.lat, marker.position.lng)
                 currentLocation = {
-                    name: 'placeholder',
-                    formatted_address: 'placeholder',
+                    name: document.getElementById("truck-name").value || "N/A",
                     geometry: {
                         location: {
                             lat: marker.position.lat,
                             lng: marker.position.lng,
                         }
+                    },
+                    details: {
+                        address: document.getElementById("truck-address").value,
+                        about: document.getElementById("truck-summary").value,
+                        menu: menuItems
                     }
                 }
                 console.log(currentLocation)
+                document.getElementById("truck-coordinates").innerHTML = `<label>4. Coordinates<p style="font-size: .8rem">${marker.position.lat}, ${marker.position.lng}</p></label>`
             }
 
             let markers = [];
@@ -160,18 +258,23 @@
                     }
 
                     currentLocation = place;
-                    console.log(currentLocation)
+                    console.log(place)
                     
                     currentLocation = {
-                        name: place.name,
-                        formatted_address: place.formatted_address,
+                        name: document.getElementById("truck-name") || place.name,
                         geometry: {
                             location: {
                                 lat: place.geometry.location.lat(),
                                 lng: place.geometry.location.lng(),
                             }
-                        }
+                        },
+                        details: {
+                            address: document.getElementById("truck-name") || place.formatted_address,
+                            about: 'placeholder',
+                            menu: 'placeholder',
+                        },
                     }
+                    document.getElementById("truck-coordinates").innerHTML = `<label>Coordinates<p style="font-size: .8rem">${place.geometry.location.lat()} ${place.geometry.location.lng()}</p></label>`
 
                     const icon = {
                         url: place.icon,
@@ -213,9 +316,9 @@
 
     <script>
         let userLocations = JSON.parse(localStorage.getItem("UserLocations"))
-        const sidebar = document.getElementById("side-bar")
+        const truckList = document.getElementById("truck-list")
         userLocations.map((truck, index) => {
-            sidebar.innerHTML += `<div key=${index} class="truck-list"><p>${truck.title}</p><button class="delete-btn" onclick="handleDelete(this, ${index})" title="Remove food truck">&times;</button></div>`
+            truckList.innerHTML += `<div key=${index}><p>${truck.title}</p><button class="delete-btn" onclick="handleDelete(this, ${index})" title="Remove food truck">&times;</button></div>`
         })
         
         const handleDelete = (e, index) => {

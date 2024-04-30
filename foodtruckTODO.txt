@@ -8,7 +8,16 @@ kind of------f/ food truck page --> contains reviews, extensive information / im
 -------------f/ review card components --> pass in props to make unique reviews (using object list containing reviews) (hard coded)
 
 -------------f/ add reviews --> user can add reviews (appended to object list of reviews)
-f/ vendors --> add/remove food truck locations, edit information page --> dynamically updates list of food trucks
+-------------f/ vendors --> add/remove food truck locations, edit information page --> dynamically updates list of food trucks
 
 -------------upd/ sign up --> implement user status ( customer / vendor )
-upd/ styling --> uniform css, layout, clean interface and imagery
+upd/ styling --> uniform css, layout, clean interface and imagery --> review/menu page
+
+f/ food truck information on menu
+f/ food truck information on dish photos
+f/ rating on dishes
+f/ food truck information on prices
+f/ filter on selected genres
+
+bug/ the search button doesnt work rn
+intended bug/ logging out removes user in local storage

@@ -30,6 +30,7 @@ export default function SideBar() {
   const [isAutocompleteVisible, setIsAutocompleteVisible] = useState(false);
   const [reviewSelected, setReviewSelected] = useState(false)
   const [reviewText, setReviewText] = useState({comment: '', rating: null})
+  const [menuSelected, setMenuSelected] = useState(false)
   
   // Calculate distance between two coordinates in miles
   const getDistance = (lat1, lon1, lat2, lon2) => {
@@ -173,51 +174,96 @@ export default function SideBar() {
               <Rating name="half-rating-read" defaultValue={0} value={foodTrucks[truckId].rating || 0} precision={0.5} readOnly></Rating>
               <p>({foodTrucks[truckId].rating})</p>
             </div>
-            {/* insert food truck address, information */}
-          </div>
-          <div className={styles.reviews}>
-            { 
-              JSON.parse(localStorage.getItem("allReviews")).map((review, index) => {
-                if (index < 5) {
-                  return (
-                    <Review key={index} username={review.username} comment={review.comment} rating={review.rating} />
-                  )
-                }
-              })
-            }
-            <button id="post-review-btn" onClick={(e) => setReviewSelected(true)} style={{display: reviewSelected ? "none" : "flex"}}><AddCommentOutlinedIcon />Post a review</button>
-            <form className={styles['add-review']} style={{display: reviewSelected ? "block" : "none"}}>
-              <p className={styles['add-review-rating']}>
-                Your rating: 
-                <Rating 
-                  name="half-rating-read" 
-                  defaultValue={0} 
-                  precision={0.5} 
-                  value={reviewText.rating || 0} 
-                  onChange={(e) => setReviewText({...reviewText, rating: e.target.value})}
-                />
-              </p>
-              <textarea 
-                value={reviewText.comment}
-                onChange={e => setReviewText({...reviewText, comment: e.target.value})}
-                className={styles['review-input']}
-                id='review-input'
-                type="text"
-                placeholder="How was your experience?"
-              >
-              </textarea>
+            <hr />
+            {/* display food truck address and information */}
+            <div className={styles['truck-info-details']}>
+              <p>@ {foodTrucks[truckId].details.address || ''}</p>
               <div>
-                <button id="cancel-review-btn" type="button" onClick={() => {setReviewText({comment: '', rating: null}); setReviewSelected(false)}}>Cancel</button>
-                <button type="button" onClick={() => handleAddReview()}>Add review</button>
+                <p style={{fontStyle: "italic"}}>{foodTrucks[truckId].details.about || ''}</p>
+                <p></p>
               </div>
-            </form>
-            <Link 
-              to={`/foodtruck/${truckId}`} 
-              style={{color: "white", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "left", gap: 5}}
-            >
-              <OpenInNewIcon fontSize=""/>See all reviews ({JSON.parse(localStorage.getItem("allReviews")).length})
-            </Link>
+            </div>
           </div>
+          <form className={styles['info-tab']}>
+            <button type="button" onClick={() => setMenuSelected(false)}>Reviews</button>
+            <button type="button" onClick={() => setMenuSelected(true)}>Menu</button>
+          </form>
+          {
+            menuSelected ? 
+            (<div className={styles.menu}>
+              <div>
+                <p className="bold">Food</p>
+                <ul>
+                  {foodTrucks[truckId].details.menu.map((item, index) => {
+                    if (item.type === "food") {
+                      return (<li key={index}>{item.item}: ${item.cost}</li>)
+                    }
+                  })}
+                </ul>
+              </div>
+              <div>
+                <p className="bold">Drinks</p>
+                <ul>
+                  {foodTrucks[truckId].details.menu.map((item, index) => {
+                    if (item.type === "drink") {
+                      return (<li key={index}>{item.item}: ${item.cost}</li>)
+                    }
+                  })}
+                </ul>
+              </div>
+              <Link 
+                to={`/foodtruck/${truckId}`} 
+                style={{color: "white", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "left", gap: 5}}
+              >
+                <OpenInNewIcon fontSize=""/>See all menu items ({JSON.parse(localStorage.getItem("allLocations"))[truckId].details.menu.length})
+              </Link>
+            </div>)
+            
+            :
+            (<div className={styles.reviews}>
+              { 
+                JSON.parse(localStorage.getItem("allReviews")).map((review, index) => {
+                  if (index < 5) {
+                    return (
+                      <Review key={index} username={review.username} comment={review.comment} rating={review.rating} />
+                    )
+                  }
+                })
+              }
+              <button id="post-review-btn" onClick={(e) => setReviewSelected(true)} style={{display: reviewSelected ? "none" : "flex"}}><AddCommentOutlinedIcon />Post a review</button>
+              <form className={styles['add-review']} style={{display: reviewSelected ? "block" : "none"}}>
+                <p className={styles['add-review-rating']}>
+                  Your rating: 
+                  <Rating 
+                    name="half-rating-read" 
+                    defaultValue={0} 
+                    precision={0.5} 
+                    value={reviewText.rating || 0} 
+                    onChange={(e) => setReviewText({...reviewText, rating: e.target.value})}
+                  />
+                </p>
+                <textarea 
+                  value={reviewText.comment}
+                  onChange={e => setReviewText({...reviewText, comment: e.target.value})}
+                  className={styles['review-input']}
+                  id='review-input'
+                  type="text"
+                  placeholder="How was your experience?"
+                >
+                </textarea>
+                <div>
+                  <button id="cancel-review-btn" type="button" onClick={() => {setReviewText({comment: '', rating: null}); setReviewSelected(false)}}>Cancel</button>
+                  <button type="button" onClick={() => handleAddReview()}>Add review</button>
+                </div>
+              </form>
+              <Link 
+                to={`/foodtruck/${truckId}`} 
+                style={{color: "white", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "left", gap: 5}}
+              >
+                <OpenInNewIcon fontSize=""/>See all reviews ({JSON.parse(localStorage.getItem("allReviews")).length})
+              </Link>
+            </div>)
+          }
         </div>)
         :
         (<div>No food truck selected</div>)

@@ -11,8 +11,13 @@ export default function Login() {
   }
   
   function fakeLogin() {
-    alert("Login successful!");
-    closeModal('loginModal');
+    if (document.getElementById("loginUsername").value === JSON.parse(localStorage.getItem("user")).username) {
+      alert("Login successful!");
+      closeModal('loginModal');
+    }
+    else {
+      alert("Invalid credentials");
+    }
   }
   
   function fakeSignup() {
@@ -24,6 +29,7 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(userInfo))
       alert("Signup successful!");
       closeModal('signupModal');
+      location.reload();
     }
     else {
       alert("Invalid sign up")
@@ -31,12 +37,14 @@ export default function Login() {
   }
   
   useEffect(() => {
-    document.getElementById('loginBtn').onclick = function() {
-      showModal('loginModal');
-    };
-    document.getElementById('signupBtn').onclick = function() {
-      showModal('signupModal');
-    };
+    if (!JSON.parse(localStorage.getItem("user"))) {
+      document.getElementById('loginBtn').onclick = function() {
+        showModal('loginModal');
+      };
+      document.getElementById('signupBtn').onclick = function() {
+        showModal('signupModal');
+      };
+    }
   }, [])
 
   const [userType, setUserType] = useState(null)

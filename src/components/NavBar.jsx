@@ -26,17 +26,28 @@ export default function NavBar() {
         <li><button onClick={() => window.location.assign("/index.html")} className="active">Home</button></li>
         <li><button onClick={() => window.location.assign("/about.html")}>About</button></li>
         <li><button onClick={() => window.location.assign("/support.html")}>Support</button></li>
-        <li><button onClick={() => window.location.assign("/reviewtest.html")}>Reviewtest</button></li>
-        <li><button id="loginBtn">Log in</button></li>
-        <li><button id="signupBtn">Sign up</button></li>
+        {/* <li><button onClick={() => window.location.assign("/reviewtest.html")}>Reviewtest</button></li> */}
+        {/* <li><button id="loginBtn">Log in</button></li>
+        <li><button id="signupBtn">Sign up</button></li> */}
       </ul>
       <h1>Motor Munchies</h1>
-
-      <div className="search-container" style={{display: "flex", gap: 5}}>
+      {
+        JSON.parse(localStorage.getItem("user")) ?
+        (<div className="search-container" style={{display: "flex", gap: 5}}>
+          <PersonIcon style={{display: JSON.parse(localStorage.getItem("user")) ? "block" : "none"}} />
+          <p>{JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")).username : "Hello, Guest"}</p>
+          <LogoutIcon onClick={() => {localStorage.removeItem("user"); location.reload() }} style={{display: JSON.parse(localStorage.getItem("user")) ? "block" : "none", cursor: "pointer" }} />
+        </div>) :
+        (<ul className="login-btns">
+          <li><button id="loginBtn">Log in</button></li>
+          <li><button id="signupBtn">Sign up</button></li>
+        </ul>)
+      }
+      {/* <div className="search-container" style={{display: "flex", gap: 5}}>
         <PersonIcon style={{display: JSON.parse(localStorage.getItem("user")) ? "block" : "none"}} />
         <p>{JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")).username : "Hello, Guest"}</p>
         <LogoutIcon onClick={() => {localStorage.removeItem("user"); location.reload() }} style={{display: JSON.parse(localStorage.getItem("user")) ? "block" : "none", cursor: "pointer" }} />
-      </div>
+      </div> */}
       {/* <div className="search-container">
         <form id="fakeSearchForm">
           <input 
