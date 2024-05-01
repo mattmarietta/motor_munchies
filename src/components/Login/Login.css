@@ -7,19 +7,19 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 
 .modal-content {
   border-radius: 10px;
   position: relative;
-  top: 30%;
-  background-color: #fefefe;
+  top: 0;
+  background-color: var(--background-color);
   margin: auto;
   padding: 0;
   width: 80%;
-  box-shadow: 0 0 10px 0 black, 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 0 5px 0 black;
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
@@ -34,7 +34,7 @@
   }
 
   to {
-    top: 30%;
+    top: 0;
     opacity: 1
   }
 }
@@ -46,7 +46,7 @@
   }
 
   to {
-    top: 30%;
+    top: 0;
     opacity: 1
   }
 }
@@ -56,7 +56,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
 }
 
 .close {
@@ -86,7 +85,6 @@
 
 
 .modal-content form {
-  color: black;
   margin: 10px auto;
   width: 50%;
   display: flex;
@@ -123,6 +121,8 @@
   margin: 10px 0;
   transition-duration: 0.4s;
   border-radius: 5px;
+  font-family: inherit;
+  font-size: 1.1rem;
 }
 
 .modal-content button:hover {

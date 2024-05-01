@@ -49,9 +49,14 @@
         const itemName = document.getElementById("item-name").value
         const itemCost = document.getElementById("item-cost").value
         const itemType = document.querySelector('input[name="item-type"]:checked').value;
+        const regex  = /^(?!0\d)\d+(?:\.\d{0,2})?$/;
+        if (!regex.test(itemCost)) {
+            alert("Invalid item cost.")
+            return
+        }
         if (itemName && itemCost && itemType) {
             // Append it to the menuItems list, then append menuItems to localStorage.setItem
-            menuItems.push({ name: itemName, cost: itemCost, type: itemType})
+            menuItems.push({ item: itemName, cost: itemCost, type: itemType})
             currentLocation.details.menu = menuItems
             cancelAddMenu()
             console.log(`Added item: { name: ${itemName}, cost: ${itemCost}, type: ${itemType} }`)
@@ -59,7 +64,7 @@
     }
 
     const cancelAddMenu = () => {
-        document.getElementById("truck-menu").innerHTML = "Add menu items"
+        document.getElementById("truck-menu").innerHTML = `Add menu items ${menuItems.length !== 0 ? `(${menuItems.length})` : ''}`
         document.getElementById("truck-menu").onclick = () => handleAddMenu()
         document.getElementById("add-menu-item").innerHTML = ''
     }
@@ -101,7 +106,7 @@
                 onchange="currentLocation.details.about=this.value"
             ></textarea>
             <div id="truck-coordinates">4. Choose a location on the map</div>
-            <label style="display: flex; gap: 5px">5. <button id="truck-menu" type="button" onClick="handleAddMenu()">Add menu items</button></label>
+            <label style="display: flex; gap: 5px">5. <button id="truck-menu" type="button" onclick="handleAddMenu()">Add menu items</button></label>
             <div id="add-menu-item"></div>
             <div>
                 <button class="button" type="button" onclick="handleReset()">Reset</button>
@@ -170,6 +175,7 @@
                             "menu":currentLocation.details.menu
                         },
                         "placeId":currentLocation.name,
+                        "rating":0
                     });
                 let userLocationsJson = JSON.stringify(userLocations);
                 localStorage.setItem("UserLocations", userLocationsJson);
@@ -296,9 +302,9 @@
                         })
                     }
                     // Create a marker for each place.
-                    markers.push(
-                        marker
-                    );
+                    // markers.push(
+                    //     marker
+                    // );
                     if (place.geometry.viewport) {
                         // Only geocodes have viewport.
                         bounds.union(place.geometry.viewport);

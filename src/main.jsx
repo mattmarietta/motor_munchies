@@ -8,7 +8,7 @@ import MainPage from './components/MainPage.jsx'
 
 const source = [
   {location: 'root-navbar', component: <NavBar />},
-  {location: 'root-footer', component: <Footer />},
+  // {location: 'root-footer', component: <Footer />},
   {location: 'root-login', component: <Login />},
   {location: 'root-map', component: <MapAPI />},
   {location: 'root-mainpage', component: <MainPage />}

@@ -19,7 +19,7 @@ export default function Login() {
       location.reload()
     }
     else {
-      alert("Invalid credentials");
+      alert("Invalid credentials.");
     }
   }
   
@@ -35,7 +35,7 @@ export default function Login() {
       location.reload();
     }
     else {
-      alert("Invalid sign up")
+      alert("Invalid sign up.")
     }
   }
   
@@ -98,11 +98,11 @@ export default function Login() {
           </div>
           <form>
             <label htmlFor="signupUsername">Username:</label>
-            <input type="text" id="signupUsername" name="username" autoComplete="off" value={username} onChange={(e) => setUsername(u => u = e.target.value)} maxLength="20" required />
+            <input type="text" id="signupUsername" name="username" autoComplete="off" value={username} onChange={(e) => setUsername(u => u = e.target.value.replace(/\s/g, ""))} placeholder="e.g., JaneDoe" maxLength="20" required />
             <label htmlFor="signupEmail">Email:</label>
-            <input type="email" id="signupEmail" name="email" autoComplete="off" required />
+            <input type="email" id="signupEmail" name="email" autoComplete="off" placeholder="e.g., email@example.com" required />
             <label htmlFor="signupPassword">Password:</label>
-            <input type="password" id="signupPassword" name="password" autoComplete="off" required />
+            <input type="password" id="signupPassword" name="password" autoComplete="off" placeholder="e.g., &#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;" required />
             <div className="user-type">
               <div>
                 <input type="radio" id="foodTruckOwner" value="Owner" onChange={() => setUserType("Owner")} checked={userType === "Owner"} />

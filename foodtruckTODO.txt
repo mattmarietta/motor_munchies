@@ -22,3 +22,5 @@ f/ filter on selected genres
 bug/ the search button doesnt work rn
 intended bug/ logging out removes user in local storage
 ------------bug/ first truck in dropdown list does not show information
+bug/ owner page --> searcing for a location, then searching for a location again leads to marker disappearing
+bug?/ user added trucks should have no reviews/rating

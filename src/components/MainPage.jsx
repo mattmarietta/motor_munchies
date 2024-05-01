@@ -7,7 +7,7 @@ export default function MainPage() {
         <p class="maintext">Get Started!</p>
         <div>
           {JSON.parse(localStorage.getItem("user")) && JSON.parse(localStorage.getItem("user")).loggedIn && JSON.parse(localStorage.getItem("user")).type === "Owner"
-          ? <li><a href='/owner.html'>I am a <span class="bold">food truck owner</span></a></li>
+          ? <li><a href='/owner.html'>I want to <span class="bold">add my food truck</span></a></li>
           : null
           }
           <li><a href='/map.html'>I am <span class="bold">looking for food trucks</span></a></li>

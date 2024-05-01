@@ -85,7 +85,8 @@ export const Map = () => {
             bootstrapURLKeys={{ key: `${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}` }}
             defaultZoom={15}
             options={{
-              gestureHandling: 'greedy'
+              gestureHandling: 'greedy',
+              clickableIcons: false
             }}
             center={selected || [latitude, longitude]}
             onClick={() => {selectTruckId(t => t = null)}}
@@ -142,7 +143,7 @@ const renderAddedLocations = () => {
         name: location.title,
         latitude: location.coords.lat,
         longitude: location.coords.lng,
-        rating: Math.round((Math.random()*(5-2.5)+2.5)/0.5)*0.5,
+        // rating: Math.round((Math.random()*(5-2.5)+2.5)/0.5)*0.5,
         details: {
           address: location.details.address,
           about: location.details.about,

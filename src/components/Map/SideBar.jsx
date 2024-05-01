@@ -180,7 +180,7 @@ export default function SideBar() {
           <div className={styles['truck-info-header']}>
             <p>{foodTrucks[truckId].name || ''}</p>
             <div className={styles.rating}>
-              <Rating name="half-rating-read" defaultValue={0} value={foodTrucks[truckId].rating || 0} precision={0.5} readOnly></Rating>
+              <Rating name="half-rating-read" defaultValue={0} value={foodTrucks[truckId].rating || 0} precision={0.5} readOnly />
               <p>({foodTrucks[truckId].rating})</p>
             </div>
             <hr />
@@ -227,10 +227,10 @@ export default function SideBar() {
                 <OpenInNewIcon fontSize=""/>See all menu items ({JSON.parse(localStorage.getItem("allLocations"))[truckId].details.menu.length})
               </Link> */}
             </div>)
-            
             :
             (<div className={styles.reviews}>
               { 
+                // Display first 5 reviews
                 JSON.parse(localStorage.getItem("allReviews")).map((review, index) => {
                   if (index < 5) {
                     return (
