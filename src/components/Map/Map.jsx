@@ -93,7 +93,7 @@ export const Map = () => {
             {
               foodTrucks.map((truck, index) => {
                 return (
-                  <LocalShippingIcon fontSize="large" color="primary"
+                  <LocalShippingIcon fontSize="large" color={index === truckId ? "secondary" : "primary"} style={{position: "relative", zIndex: 5, cursor: "pointer"}}
                     id={`foodtruck-${index}`} 
                     key={index}
                     lat={truck.latitude}
@@ -112,7 +112,7 @@ export const Map = () => {
                       key={index}
                       lat={truck.latitude}
                       lng={truck.longitude}
-                      style={{backgroundColor: "white", fontSize: "2rem", width: 100, position: "relative", bottom: 20, cursor: "pointer"}}
+                      style={{backgroundColor: "white", fontSize: "1.1rem", width: 200, textAlign: "center", position: "relative", bottom: 40, cursor: "pointer", borderRadius: 5, boxShadow: "0 0 3px black"}}
                       >
                         <Link to={`/foodtruck/${truckId}`} style={{textDecoration: "none", color: "black"}}>
                         {console.log(truck.name)}
@@ -124,7 +124,7 @@ export const Map = () => {
                 return null
               })
             }
-            <LocationSearchingIcon fontSize="medium" color="primary" 
+            <LocationSearchingIcon fontSize="medium" color="primary" style={{position: "relative"}}
               lat={selected ? selected.lat : latitude} lng={selected ? selected.lng : longitude}
             />
           </GoogleMapReact>
@@ -151,7 +151,6 @@ const renderAddedLocations = () => {
       });
     });
   }
-  console.log(truckData)
 }
 
 // LIST OF TRUCK NAMES & LOCATIONS

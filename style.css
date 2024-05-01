@@ -17,6 +17,7 @@ h1 {
   color: var(--primary-color);
   text-align: left;
   margin: 10px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 p {
@@ -29,7 +30,8 @@ li :is(a, button) {
   font-size: 1rem;
   text-decoration: none;
   cursor: pointer;
-  transition: 0.2s
+  transition: 0.2s;
+  font-family: inherit;
 }
 
 li :is(a, button):hover {

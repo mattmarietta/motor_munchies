@@ -12,8 +12,11 @@ export default function Login() {
   
   function fakeLogin() {
     if (document.getElementById("loginUsername").value === JSON.parse(localStorage.getItem("user")).username) {
-      alert("Login successful!");
+      const user = JSON.parse(localStorage.getItem("user"))
+      user.loggedIn = true
+      localStorage.setItem("user", JSON.stringify(user))
       closeModal('loginModal');
+      location.reload()
     }
     else {
       alert("Invalid credentials");
@@ -23,11 +26,11 @@ export default function Login() {
   function fakeSignup() {
     const userInfo = {
       username: username,
-      type: userType
+      type: userType,
+      loggedIn: true,
     }
     if (username && document.getElementById("signupEmail").value && document.getElementById("signupPassword") && userType) {
       localStorage.setItem("user", JSON.stringify(userInfo))
-      alert("Signup successful!");
       closeModal('signupModal');
       location.reload();
     }
@@ -37,7 +40,8 @@ export default function Login() {
   }
   
   useEffect(() => {
-    if (!JSON.parse(localStorage.getItem("user"))) {
+    const user = JSON.parse(localStorage.getItem("user")) ? JSON.parse(localStorage.getItem("user")).loggedIn : false
+    if (!user) {
       document.getElementById('loginBtn').onclick = function() {
         showModal('loginModal');
       };

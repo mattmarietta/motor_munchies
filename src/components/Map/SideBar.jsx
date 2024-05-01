@@ -26,7 +26,7 @@ export default function SideBar() {
   const {latitude, setLatitude, longitude, setLongitude, foodTrucks, setFoodTrucks, truckId, selectTruckId, initState, selected, setSelected} = useContext(MapContext);
   // SideBar hooks
   const [searchText, setSearchText] = useState('');
-  const [distance, setDistance] = useState(5);
+  const [distance, setDistance] = useState(10);
   const [isAutocompleteVisible, setIsAutocompleteVisible] = useState(false);
   const [reviewSelected, setReviewSelected] = useState(false)
   const [reviewText, setReviewText] = useState({comment: '', rating: null})
@@ -65,11 +65,11 @@ export default function SideBar() {
     console.log(`Searching for "${searchText}" within ${distance} miles with selected=${selected}`)
     setFoodTrucks(f => 
       f.filter(truck => {
-        truck.name.toLowerCase().includes(searchText.toLowerCase())
-        &&
-        (selected !== null ? 
-        getDistance(selected.lat, selected.lng, truck.latitude, truck.longitude) < distance : 
-        getDistance(latitude, longitude, truck.latitude, truck.longitude) < distance)
+        const nameMatch = truck.name.toLowerCase().includes(searchText.toLowerCase().replace(/\s*\([^]*\)/, ''))
+        const withinDistance = selected !== null ? 
+          getDistance(selected.lat, selected.lng, truck.latitude, truck.longitude) < distance : 
+          getDistance(latitude, longitude, truck.latitude, truck.longitude) < distance
+        return nameMatch && withinDistance
       })
     )
   }
@@ -77,34 +77,37 @@ export default function SideBar() {
   const handleReset = () => {
     console.log("reset")
     setFoodTrucks([...initState])
-    setDistance(5)
+    setDistance(10)
     setSearchText('')
     selectTruckId(null)
   }
 
-  const handleSelect = (value) => {
-    // setSelected(null)
+  const handleSelectTruck = (value) => {
     value = value.replace(/\s*\([^]*\)/, '')
     const selectedTruck = foodTrucks.find(truck => truck.name === value)
-    console.log(selectedTruck, foodTrucks.indexOf(selectedTruck))
-    // setLatitude(l => l = selectedTruck.latitude)
-    // setLongitude(l => l = selectedTruck.longitude)
+
     setSelected({
       lat: selectedTruck.latitude,
       lng: selectedTruck.longitude
     })
-    //problem: not getting index 0
+
     selectTruckId(foodTrucks.indexOf(foodTrucks.find(truck => truck.name === value)))
   }
-
+  
   const handleAddReview = () => {
     console.log(reviewText)
     let reviewList = JSON.parse(localStorage.getItem("allReviews"))
-    reviewList.unshift({
-      comment: reviewText.comment,
-      rating: reviewText.rating
-    })
-    localStorage.setItem("allReviews", JSON.stringify(reviewList))
+    const user = JSON.parse(localStorage.getItem("user"))
+    if (user && user.loggedIn) {
+      reviewList.unshift({
+        username: user ? user.username : 'Guest',
+        comment: reviewText.comment,
+        rating: reviewText.rating
+      })
+      localStorage.setItem("allReviews", JSON.stringify(reviewList))
+    } else {
+      alert("You are not logged in!")
+    }
     setReviewText({comment: '', rating: null})
     setReviewSelected(false)
   }
@@ -128,31 +131,24 @@ export default function SideBar() {
   useEffect(() => {
     setSearchText('');
   }, [isAutocompleteVisible])
-
+  
 
   return (
-    <div className={styles['side-bar']} style={{width: truckId ? "50%" : "20%"}}>
-      <div class={styles['toggle-button']}>
+    <div className={styles['side-bar']} style={{width: foodTrucks[truckId] ? "50%" : "20%"}}>
+      <div className={styles['toggle-button']}>
         <button onClick={() => setIsAutocompleteVisible(!isAutocompleteVisible)}>Toggle search mode</button>
       </div>
       <ToggleContext.Provider value={isAutocompleteVisible}>
         <PlacesAutocomplete className={styles.searchbox} setSelected={setSelected} style={{display: "none"}}/>
       </ToggleContext.Provider>
-      {/* <input 
-      id="truck-searchbox"
-      value={searchText}
-      type="textbox"
-      onChange={e => {setSearchText(s => s = e.target.value)}}
-      placeholder="Search for a food truck"
-      /> */}
       <Combobox 
         id="truck-autocomplete"
         className={styles['truck-searchbox']}
         placeholder="Search for a food truck"
         data={[...foodTruckAutocomplete()]}
-        value={searchText}
+        value={searchText.replace(/\s*\([^]*\)/, '')}
         onChange={value => setSearchText(value)}
-        onSelect={value => {handleSelect(value)}}
+        onSelect={value => {handleSelectTruck(value)}}
         style={{cursor: "pointer", display: isAutocompleteVisible ? "block" : "none"}}
       />
       <div>
@@ -180,7 +176,7 @@ export default function SideBar() {
       </form>
       {
         foodTrucks[truckId] ? 
-        (<div className={styles['truck-info']} style={{display: truckId ? "block" : "none"}}>
+        (<div className={styles['truck-info']}>
           <div className={styles['truck-info-header']}>
             <p>{foodTrucks[truckId].name || ''}</p>
             <div className={styles.rating}>
@@ -224,12 +220,12 @@ export default function SideBar() {
                   })}
                 </ul>
               </div>
-              <Link 
+              {/* <Link 
                 to={`/foodtruck/${truckId}`} 
                 style={{color: "white", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "left", gap: 5}}
               >
                 <OpenInNewIcon fontSize=""/>See all menu items ({JSON.parse(localStorage.getItem("allLocations"))[truckId].details.menu.length})
-              </Link>
+              </Link> */}
             </div>)
             
             :
@@ -238,7 +234,7 @@ export default function SideBar() {
                 JSON.parse(localStorage.getItem("allReviews")).map((review, index) => {
                   if (index < 5) {
                     return (
-                      <Review key={index} username={review.username} comment={review.comment} rating={review.rating} />
+                      <Review key={index} username={review.username} comment={review.comment} rating={parseInt(review.rating)} />
                     )
                   }
                 })
@@ -313,38 +309,6 @@ const PlacesAutocomplete = ({ setSelected }) => {
     })
   }, [])
 
-  // const handleSelect =
-  //   ({ description }) => () => {
-  //     // When the user selects a place, we can replace the keyword without request data from API
-  //     // by setting the second parameter to "false"
-  //     setValue(description, false);
-  //     clearSuggestions();
-
-  //     // Get latitude and longitude via utility functions
-  //     getGeocode({ address: description }).then((results) => {
-  //       const { lat, lng } = getLatLng(results[0]);
-  //       console.log("📍 Coordinates: ", { lat, lng });
-  //       setSelected({ lat, lng })
-  //     });
-  //   };
-
-  // const renderSuggestions = () =>
-  //   data.map((suggestion) => {
-  //     const {
-  //       place_id,
-  //       structured_formatting: { main_text, secondary_text },
-  //     } = suggestion;
-
-  //     return (
-  //       <li 
-  //       key={place_id} 
-  //       onClick={handleSelect(suggestion)}
-  //       style={{cursor: "pointer"}}>
-  //         {main_text} {secondary_text}
-  //       </li>
-  //     );
-  //   });
-
    const handleSelect = async (address) => {
     setValue(address, false)
     clearSuggestions()
@@ -357,13 +321,6 @@ const PlacesAutocomplete = ({ setSelected }) => {
 
   return (
     <div className={styles['autocomplete-container']}>
-      {/* <input
-        className={styles['search-box']}
-        value={value}
-        onChange={e => setValue(e.target.value)}
-        disabled={!ready}
-        placeholder="Search for a city"
-      /> */}
       <Combobox 
         // className={styles['search-box']}
         placeholder="Search for a city"
@@ -375,8 +332,6 @@ const PlacesAutocomplete = ({ setSelected }) => {
         onSelect={handleSelect}
         style={{display: toggle ? "none" : "block"}}
       />
-      {/* We can use the "status" to decide whether we should display the dropdown or not */}
-      {/* {status === "OK" && <ul className={styles['address-list']}>{renderSuggestions()}</ul>} */}
     </div>
   );
 };

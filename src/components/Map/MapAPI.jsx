@@ -7,7 +7,7 @@ export default function MapAPI() {
   return (
     <Router>
       <Routes>
-        <Route exact path='/maptest.html' element={<Map />} />
+        <Route exact path='/map.html' element={<Map />} />
         <Route path='/foodtruck/:truckId' element={<FoodTruck />} />
       </Routes>
     </Router>
