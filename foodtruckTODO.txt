@@ -21,3 +21,4 @@ f/ filter on selected genres
 
 bug/ the search button doesnt work rn
 intended bug/ logging out removes user in local storage
+bug/ first truck in dropdown list does not show information

@@ -142,6 +142,12 @@ const renderAddedLocations = () => {
         name: location.title,
         latitude: location.coords.lat,
         longitude: location.coords.lng,
+        rating: Math.round((Math.random()*(5-2.5)+2.5)/0.5)*0.5,
+        details: {
+          address: location.details.address,
+          about: location.details.about,
+          menu: location.details.menu
+        }
       });
     });
   }

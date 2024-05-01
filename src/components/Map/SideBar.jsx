@@ -84,14 +84,16 @@ export default function SideBar() {
 
   const handleSelect = (value) => {
     // setSelected(null)
+    value = value.replace(/\s*\([^]*\)/, '')
     const selectedTruck = foodTrucks.find(truck => truck.name === value)
-    console.log(selectedTruck)
+    console.log(selectedTruck, foodTrucks.indexOf(selectedTruck))
     // setLatitude(l => l = selectedTruck.latitude)
     // setLongitude(l => l = selectedTruck.longitude)
     setSelected({
       lat: selectedTruck.latitude,
       lng: selectedTruck.longitude
     })
+    //problem: not getting index 0
     selectTruckId(foodTrucks.indexOf(foodTrucks.find(truck => truck.name === value)))
   }
 
@@ -108,7 +110,18 @@ export default function SideBar() {
   }
 
   const foodTruckAutocomplete = () => {
-    const filteredFoodTrucks = foodTrucks.map(truck => truck.name)
+    const currentCoordinates = {lat: selected? selected.lat : latitude, lng: selected? selected.lng : longitude}
+    let filteredFoodTrucks = foodTrucks.map(truck => `${truck.name} (${getDistance(truck.latitude, truck.longitude, currentCoordinates.lat, currentCoordinates.lng).toFixed(2)} mi)`)
+
+    // const filterByDistance = foodTrucks
+    // .sort((a, b) => {
+    //     a = getDistance(a.latitude, a.longitude, currentCoordinates.lat, currentCoordinates.lng)
+    //     b = getDistance(b.latitude, b.longitude, currentCoordinates.lat, currentCoordinates.lng)
+    //     return a - b
+    // })
+    // .map(truck => `${truck.name} (${getDistance(truck.latitude, truck.longitude, currentCoordinates.lat, currentCoordinates.lng).toFixed(2)} mi)`)
+
+    // return filteredFoodTrucks
     return filteredFoodTrucks
   }
 
