@@ -71,9 +71,11 @@ export const Map = () => {
     )
     // Append custom locations to list, then store combined data
     renderAddedLocations()
-    setFoodTrucks(localStorage.getItem("allLocations") ? JSON.parse(localStorage.getItem("allLocations")) : truckData)
+    console.log("Here")
+    console.log(truckData)
     let allLocationsJson = JSON.stringify(truckData);
-    localStorage.getItem("allLocations") ? null : localStorage.setItem("allLocations", allLocationsJson);
+    localStorage.getItem("allLocations") ? localStorage.setItem("allLocations", allLocationsJson) : localStorage.setItem("allLocations", allLocationsJson);
+    setFoodTrucks(localStorage.getItem("allLocations") ? JSON.parse(localStorage.getItem("allLocations")) : truckData)
   }, [])
 
   return (
@@ -138,28 +140,12 @@ export const Map = () => {
 
 const renderAddedLocations = () => {
   let userLocations = JSON.parse(localStorage.getItem("UserLocations"));
-  if (userLocations) {
-    userLocations.forEach(location => {
-      truckData.push({
-        name: location.title,
-        latitude: location.coords.lat,
-        longitude: location.coords.lng,
-        // rating: Math.round((Math.random()*(5-2.5)+2.5)/0.5)*0.5,
-        details: {
-          address: location.details.address,
-          about: location.details.about,
-          menu: location.details.menu
-        }
-      });
-    });
-  }
-
   let reviews = JSON.parse(localStorage.getItem("allReviews"));
   if (reviews) {
     // console.log(reviews)
     const newTruckData = truckData.map(truck => {
       // Push reviews into each truck
-      if (JSON.parse(localStorage.getItem("UserLocations")).find(t => t.title === truck.name)) {
+      if (userLocations && JSON.parse(localStorage.getItem("UserLocations")).find(t => t.title === truck.name)) {
         return (
           {...truck,
           "reviews": []}
@@ -173,6 +159,25 @@ const renderAddedLocations = () => {
     })
     truckData = newTruckData
   }
+  
+  if (userLocations) {
+    userLocations.forEach(location => {
+      truckData.push({
+        name: location.title,
+        latitude: location.coords.lat,
+        longitude: location.coords.lng,
+        // rating: Math.round((Math.random()*(5-2.5)+2.5)/0.5)*0.5,
+        details: {
+          address: location.details.address,
+          about: location.details.about,
+          menu: location.details.menu
+        },
+        reviews: [],
+      });
+    });
+    console.log("Added user locations")
+  }
+
 }
 
 // LIST OF TRUCK NAMES & LOCATIONS

@@ -324,9 +324,11 @@
     <script>
         let userLocations = JSON.parse(localStorage.getItem("UserLocations"))
         const truckList = document.getElementById("truck-list")
-        userLocations.map((truck, index) => {
+        userLocations
+        ? userLocations.map((truck, index) => {
             truckList.innerHTML += `<div key=${index}><p>${truck.title}</p><button class="delete-btn" onclick="handleDelete(this, ${index})" title="Remove food truck">&times;</button></div>`
         })
+        : null
         
         const handleDelete = (e, index) => {
             e.parentNode.remove();
