@@ -30,7 +30,7 @@ export default function NavBar() {
     <div className="nav">
       {/* List of navigation buttons */}
       <ul>
-        <li><button onClick={() => window.location.assign("/index.html")} className="active">Home</button></li>
+        <li><button onClick={() => window.location.assign("/index.html")}>Home</button></li>
         <li><button onClick={() => window.location.assign("/about.html")}>About</button></li>
         {/* <li><button onClick={() => window.location.assign("/support.html")}>Support</button></li> */}
         {/* <li><button onClick={() => window.location.assign("/reviewtest.html")}>Reviewtest</button></li> */}
