@@ -18,6 +18,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import Rating from '@mui/material/Rating';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import AddCommentOutlinedIcon from '@mui/icons-material/AddCommentOutlined';
+import DirectionsIcon from '@mui/icons-material/Directions';
 
 const ToggleContext = createContext()
 
@@ -95,21 +96,47 @@ export default function SideBar() {
   }
   
   const handleAddReview = () => {
+    // console.log(reviewText)
+    // let reviewList = JSON.parse(localStorage.getItem("allReviews"))
+    // const user = JSON.parse(localStorage.getItem("user"))
+    // if (user && user.loggedIn) {
+    //   reviewList.unshift({
+    //     username: user ? user.username : 'Guest',
+    //     comment: reviewText.comment,
+    //     rating: reviewText.rating
+    //   })
+    //   localStorage.setItem("allReviews", JSON.stringify(reviewList))
+    // } else {
+    //   alert("You are not logged in!")
+    // }
+    // setReviewText({comment: '', rating: null})
+    // setReviewSelected(false)
+
     console.log(reviewText)
-    let reviewList = JSON.parse(localStorage.getItem("allReviews"))
+    const updatedReviews = [...foodTrucks[truckId].reviews]
     const user = JSON.parse(localStorage.getItem("user"))
     if (user && user.loggedIn) {
-      reviewList.unshift({
-        username: user ? user.username : 'Guest',
-        comment: reviewText.comment,
-        rating: reviewText.rating
-      })
-      localStorage.setItem("allReviews", JSON.stringify(reviewList))
+      if (reviewText.rating !== null) {
+        updatedReviews.unshift({
+          username: user ? user.username : 'Guest',
+          comment: reviewText.comment,
+          rating: reviewText.rating
+        })
+        foodTrucks[truckId] = { ...foodTrucks[truckId], reviews: updatedReviews }
+        localStorage.setItem("allLocations", JSON.stringify(foodTrucks))
+        setReviewText({comment: '', rating: null})
+        setReviewSelected(false)
+      } else {
+        alert("Rating is required.")
+      }
     } else {
       alert("You are not logged in!")
     }
-    setReviewText({comment: '', rating: null})
-    setReviewSelected(false)
+  }
+
+  const googleMapsRoute = (currentLat, currentLng, truckLat, truckLng) => {
+    const url = `https://www.google.com/maps/dir/${currentLat},${currentLng}/${truckLat},${truckLng}`
+    window.open(url)
   }
 
   const foodTruckAutocomplete = () => {
@@ -131,7 +158,7 @@ export default function SideBar() {
   useEffect(() => {
     setSearchText('');
   }, [isAutocompleteVisible])
-  
+
 
   return (
     <div className={styles['side-bar']} style={{width: foodTrucks[truckId] ? "50%" : "20%"}}>
@@ -189,7 +216,10 @@ export default function SideBar() {
               <p>@ {foodTrucks[truckId].details.address || ''}</p>
               <div>
                 <p style={{fontStyle: "italic"}}>{foodTrucks[truckId].details.about || ''}</p>
-                <p></p>
+                <button type="button" className={styles.route}
+                onClick={() => googleMapsRoute(selected ? selected.lat : latitude, selected ? selected.lng : longitude, foodTrucks[truckId].latitude, foodTrucks[truckId].longitude)}>
+                  <p>Directions <DirectionsIcon fontSize='small'/></p>
+                </button>
               </div>
             </div>
           </div>
@@ -198,6 +228,7 @@ export default function SideBar() {
             <button type="button" onClick={() => setMenuSelected(true)}>Menu</button>
           </form>
           {
+            // Display menu or reviews
             menuSelected ? 
             (<div className={styles.menu}>
               <div>
@@ -230,14 +261,19 @@ export default function SideBar() {
             :
             (<div className={styles.reviews}>
               { 
-                // Display first 5 reviews
-                JSON.parse(localStorage.getItem("allReviews")).map((review, index) => {
+                // JSON.parse(localStorage.getItem("UserLocations")).find(t => t.title === foodTrucks[truckId].name) ? 
+                // // Display first 5 reviews
+                // null
+                // :
+                foodTrucks[truckId].reviews ?
+                (foodTrucks[truckId].reviews.map((review, index) => {
                   if (index < 5) {
                     return (
                       <Review key={index} username={review.username} comment={review.comment} rating={parseInt(review.rating)} />
                     )
                   }
-                })
+                }))
+                : null
               }
               <button id="post-review-btn" onClick={(e) => setReviewSelected(true)} style={{display: reviewSelected ? "none" : "flex"}}><AddCommentOutlinedIcon />Post a review</button>
               <form className={styles['add-review']} style={{display: reviewSelected ? "block" : "none"}}>
@@ -258,6 +294,7 @@ export default function SideBar() {
                   id='review-input'
                   type="text"
                   placeholder="How was your experience?"
+                  maxLength="100"
                 >
                 </textarea>
                 <div>
@@ -269,7 +306,7 @@ export default function SideBar() {
                 to={`/foodtruck/${truckId}`} 
                 style={{color: "white", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "left", gap: 5}}
               >
-                <OpenInNewIcon fontSize=""/>See all reviews ({JSON.parse(localStorage.getItem("allReviews")).length})
+                <OpenInNewIcon fontSize=""/>See all reviews ({foodTrucks[truckId].reviews.length})
               </Link>
             </div>)
           }

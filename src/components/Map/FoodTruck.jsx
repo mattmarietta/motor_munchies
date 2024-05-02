@@ -12,8 +12,8 @@ export default function FoodTruck() {
 
   const id = useParams() // Get the id in the URL
 
-  const reviewsList = JSON.parse(localStorage.getItem("allReviews"))
   const foodTrucks = JSON.parse(localStorage.getItem("allLocations"))
+  const reviewsList = JSON.parse(localStorage.getItem("allReviews"))
   console.log(id)
 
   return (
@@ -23,11 +23,13 @@ export default function FoodTruck() {
         <Rating name="half-rating-read" defaultValue={0} value={foodTrucks[id.truckId].rating || 0} precision={0.5} readOnly></Rating>
       </div>
       <div className={styles['reviews']}>
-        {
-          reviewsList.map((review, index) => {
+        { foodTrucks[id.truckId].reviews.length !== 0 ?
+          foodTrucks[id.truckId].reviews.map((review, index) => {
             return (<Review key={index} username={review.username} comment={review.comment} rating={review.rating} page/>)
             // 'user is not defined' ?
           })
+          :
+          <p>There are currently no reviews.</p>
         }
       </div>
     </div>

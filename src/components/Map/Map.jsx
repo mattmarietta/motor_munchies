@@ -43,7 +43,7 @@ export const Map = () => {
   // Map hooks
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
-  const [foodTrucks, setFoodTrucks] = useState(truckData);
+  const [foodTrucks, setFoodTrucks] = useState(localStorage.getItem("allLocations") ? JSON.parse(localStorage.getItem("allLocations")) : truckData);
   const [truckId, selectTruckId] = useState(null);
   const initState = truckData; // Original list of truck objects
   const [selected, setSelected] = useState(null);
@@ -71,8 +71,9 @@ export const Map = () => {
     )
     // Append custom locations to list, then store combined data
     renderAddedLocations()
+    setFoodTrucks(localStorage.getItem("allLocations") ? JSON.parse(localStorage.getItem("allLocations")) : truckData)
     let allLocationsJson = JSON.stringify(truckData);
-    localStorage.setItem("allLocations", allLocationsJson);
+    localStorage.getItem("allLocations") ? null : localStorage.setItem("allLocations", allLocationsJson);
   }, [])
 
   return (
@@ -137,7 +138,7 @@ export const Map = () => {
 
 const renderAddedLocations = () => {
   let userLocations = JSON.parse(localStorage.getItem("UserLocations"));
-  if (userLocations){
+  if (userLocations) {
     userLocations.forEach(location => {
       truckData.push({
         name: location.title,
@@ -151,6 +152,26 @@ const renderAddedLocations = () => {
         }
       });
     });
+  }
+
+  let reviews = JSON.parse(localStorage.getItem("allReviews"));
+  if (reviews) {
+    // console.log(reviews)
+    const newTruckData = truckData.map(truck => {
+      // Push reviews into each truck
+      if (JSON.parse(localStorage.getItem("UserLocations")).find(t => t.title === truck.name)) {
+        return (
+          {...truck,
+          "reviews": []}
+        )
+      } else {
+        return (
+          {...truck, 
+          "reviews": reviews}
+        )
+      }
+    })
+    truckData = newTruckData
   }
 }
 

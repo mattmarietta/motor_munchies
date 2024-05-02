@@ -49,7 +49,7 @@ Review.defaultProps = {
 Review.propTypes = {
   username: PropTypes.string,
   comment: PropTypes.string,
-  rating: PropTypes.number
+  rating: PropTypes.number || PropTypes.string
 }
 
 // LIST OF REVIEWS
