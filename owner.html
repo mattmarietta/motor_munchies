@@ -332,7 +332,15 @@
         
         const handleDelete = (e, index) => {
             e.parentNode.remove();
-            //remove it from localstorage
+            // Remove it from Local Storage
+            if (localStorage.getItem("allLocations")) {
+                const allLocations = JSON.parse(localStorage.getItem("allLocations"));
+                const targetTruckIndex = allLocations.findIndex(t => t.name === JSON.parse(localStorage.getItem("UserLocations"))[index].title)
+                if (targetTruckIndex !== -1) {
+                    const removeTargetTruck = [...allLocations.slice(0, targetTruckIndex), ...allLocations.slice(targetTruckIndex + 1)];
+                    localStorage.setItem("allLocations", JSON.stringify(removeTargetTruck));
+                }
+            }
             userLocations = userLocations.filter(l => userLocations.indexOf(l) != index)
             localStorage.setItem("UserLocations", JSON.stringify(userLocations))
             location.reload();

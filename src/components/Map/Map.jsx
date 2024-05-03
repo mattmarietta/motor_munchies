@@ -71,12 +71,53 @@ export const Map = () => {
     )
     // Append custom locations to list, then store combined data
     renderAddedLocations()
-    console.log("Here")
-    console.log(truckData)
-    let allLocationsJson = JSON.stringify(truckData);
-    localStorage.getItem("allLocations") ? localStorage.setItem("allLocations", allLocationsJson) : localStorage.setItem("allLocations", allLocationsJson);
-    setFoodTrucks(localStorage.getItem("allLocations") ? JSON.parse(localStorage.getItem("allLocations")) : truckData)
   }, [])
+
+  const renderAddedLocations = () => {
+    let userLocations = JSON.parse(localStorage.getItem("UserLocations"));
+    let reviews = JSON.parse(localStorage.getItem("allReviews"));
+    let data = localStorage.getItem("allLocations") ? JSON.parse(localStorage.getItem("allLocations")) : truckData
+    if (reviews) {
+      // console.log(reviews)
+      const newTruckData = data.map(truck => {
+        // Push reviews into each truck
+        if (userLocations && JSON.parse(localStorage.getItem("UserLocations")).find(t => t.title === truck.name)) {
+          return (
+            {...truck,
+            "reviews": truck.reviews || []}
+          )
+        } else {
+          return (
+            {...truck, 
+            "reviews": truck.reviews || reviews}
+          )
+        }
+      })
+      truckData = newTruckData
+    }
+    
+    if (userLocations) {
+      userLocations.forEach(location => {
+        if (((localStorage.getItem("allLocations") && !JSON.parse(localStorage.getItem("allLocations")).find(t => t.name === location.title))) || !localStorage.getItem("allLocations")) {
+          truckData.push({
+            name: location.title,
+            latitude: location.coords.lat,
+            longitude: location.coords.lng,
+            // rating: Math.round((Math.random()*(5-2.5)+2.5)/0.5)*0.5,
+            details: {
+              address: location.details.address,
+              about: location.details.about,
+              menu: location.details.menu
+            },
+            reviews: [],
+          });
+        }
+      });
+      console.log("Added user locations")
+    }
+    localStorage.setItem("allLocations", JSON.stringify(truckData))
+    setFoodTrucks(truckData)
+  }
 
   return (
     <MapContext.Provider value={value}>
@@ -136,48 +177,6 @@ export const Map = () => {
       </div>
     </MapContext.Provider>
   )
-}
-
-const renderAddedLocations = () => {
-  let userLocations = JSON.parse(localStorage.getItem("UserLocations"));
-  let reviews = JSON.parse(localStorage.getItem("allReviews"));
-  if (reviews) {
-    // console.log(reviews)
-    const newTruckData = truckData.map(truck => {
-      // Push reviews into each truck
-      if (userLocations && JSON.parse(localStorage.getItem("UserLocations")).find(t => t.title === truck.name)) {
-        return (
-          {...truck,
-          "reviews": []}
-        )
-      } else {
-        return (
-          {...truck, 
-          "reviews": reviews}
-        )
-      }
-    })
-    truckData = newTruckData
-  }
-  
-  if (userLocations) {
-    userLocations.forEach(location => {
-      truckData.push({
-        name: location.title,
-        latitude: location.coords.lat,
-        longitude: location.coords.lng,
-        // rating: Math.round((Math.random()*(5-2.5)+2.5)/0.5)*0.5,
-        details: {
-          address: location.details.address,
-          about: location.details.about,
-          menu: location.details.menu
-        },
-        reviews: [],
-      });
-    });
-    console.log("Added user locations")
-  }
-
 }
 
 // LIST OF TRUCK NAMES & LOCATIONS
